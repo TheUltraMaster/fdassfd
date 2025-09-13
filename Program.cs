@@ -33,7 +33,7 @@ builder.Services.AddHttpClient();
 
 
 
-string direccion = "localhost";
+string direccion = "138.197.199.155";
 int puerto = 9000;
 bool ssl = false;
 
