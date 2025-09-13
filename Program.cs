@@ -185,7 +185,7 @@ app.MapPost("/api/prediccion", async (Proyecto.ApiModels.PredictionRequest reque
                 Message = "Cultivo no encontrado"
             });
         }
-
+        
         // Create prediction
         var prediccion = new Proyecto.Models.Prediccion
         {
