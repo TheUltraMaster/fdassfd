@@ -210,7 +210,7 @@ app.MapPost("/api/prediccion", async (Proyecto.ApiModels.PredictionRequest reque
         return Results.Problem(new Proyecto.ApiModels.PredictionResponse
         {
             Success = false,
-            Message = "Error interno del servidor"
+            Message = ex.Message
         }.Message);
     }
 });
