@@ -12,4 +12,5 @@ public interface ITreatmentService
     Task<bool> TreatmentNameExistsAsync(string nombre, int? excludeId = null);
     Task<IEnumerable<Etapa>> GetAllEtapasAsync();
     Task<IEnumerable<Enfermedad>> GetAllEnfermedadesAsync();
+    Task<IEnumerable<Tratamiento>> GetTreatmentsByDiseaseAndCropAsync(string diseaseClassname, int cultivoId);
 }

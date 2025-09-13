@@ -1,4 +1,5 @@
 using Bucket;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Minio;
 using Proyecto.Data;
@@ -413,6 +414,41 @@ app.MapGet("/api/cultivos", async (HttpContext context, ProyectoContext dbContex
             Success = false,
             Message = "Error interno del servidor"
         }.Message);
+    }
+});
+
+// API endpoint to get treatments by disease classname and crop ID
+app.MapGet("/api/tratamientos/{diseaseClassname}/{cultivoId:int}", async (string diseaseClassname, int cultivoId, ITreatmentService treatmentService) =>
+{
+    try
+    {
+        var treatments = await treatmentService.GetTreatmentsByDiseaseAndCropAsync(diseaseClassname, cultivoId);
+
+        var result = treatments.Select(t => new
+        {
+            t.Id,
+            t.Nombre,
+            t.Descripcion,
+            t.CantidadPorPlanta,
+            Enfermedad = t.IdEnfermedadNavigation?.Nombre,
+            EnfermedadClassname = t.IdEnfermedadNavigation?.Classname,
+            Etapa = t.IdEtapaNavigation?.Nombre
+        }).ToList();
+
+        return Results.Ok(new
+        {
+            Success = true,
+            Message = "Tratamientos obtenidos exitosamente",
+            Tratamientos = result
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem(new
+        {
+            Success = false,
+            Message = "Error interno del servidor"
+        }.ToString());
     }
 });
 

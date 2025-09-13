@@ -89,4 +89,27 @@ public class TreatmentService : ITreatmentService
             .OrderBy(e => e.Nombre)
             .ToListAsync();
     }
+
+    public async Task<IEnumerable<Tratamiento>> GetTreatmentsByDiseaseAndCropAsync(string diseaseClassname, int cultivoId)
+    {
+        // Verify that the crop exists
+        var cultivo = await _context.Cultivos.FindAsync(cultivoId);
+        if (cultivo == null)
+            return new List<Tratamiento>();
+
+        // Find the disease by classname
+        var enfermedad = await _context.Enfermedads
+            .FirstOrDefaultAsync(e => e.Classname == diseaseClassname);
+
+        if (enfermedad == null)
+            return new List<Tratamiento>();
+
+        // Get treatments for the disease and the crop's current stage
+        return await _context.Tratamientos
+            .Include(t => t.IdEtapaNavigation)
+            .Include(t => t.IdEnfermedadNavigation)
+            .Where(t => t.IdEnfermedad == enfermedad.Id && t.IdEtapa == cultivo.IdEtapa)
+            .OrderBy(t => t.Nombre)
+            .ToListAsync();
+    }
 }
