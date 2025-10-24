@@ -19,6 +19,7 @@ dotenv.net.DotEnv.Load();
 
 
 builder.Services.AddDbContext<ProyectoContext>(opt => opt.UseMySQL(Environment.GetEnvironmentVariable("conexion")));
+
 // Add BCrypt service
 builder.Services.AddScoped<Bycript.IBCryptService, Bycript.BCryptService>();
 // Add User service
@@ -34,7 +35,7 @@ builder.Services.AddHttpClient();
 
 
 string direccion = "138.197.199.155";
-int puerto = 9000;
+int puerto = int.Parse(Environment.GetEnvironmentVariable("puerto"));
 bool ssl = false;
 
 builder.Services.AddMinio(configureClient => configureClient
