@@ -308,7 +308,7 @@ app.MapPost("/api/hoja", async (Proyecto.ApiModels.LeafRequest request, Proyecto
         return Results.Problem(new Proyecto.ApiModels.LeafResponse
         {
             Success = false,
-            Message = "Error interno del servidor"
+            Message = ex.Message
         }.Message);
     }
 });
