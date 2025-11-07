@@ -34,7 +34,7 @@ builder.Services.AddHttpClient();
 
 
 
-string direccion = "138.197.199.155";
+string direccion = "157.245.178.204";
 int puerto = int.Parse(Environment.GetEnvironmentVariable("puerto"));
 bool ssl = false;
 
